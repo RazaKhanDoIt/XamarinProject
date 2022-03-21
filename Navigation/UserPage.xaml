@@ -1,13 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Navigation.UserPage">
+             x:Class="Navigation.UserPage"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="You are Logged!!!"
-                   FontSize="35"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        
+        <Grid>
+            
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+
+
+            </Grid.RowDefinitions>
+
+
+            <StackLayout Grid.Row="0">
+                <ListView x:Name="listTasks">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Label Text="{Binding TaskId}" />
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Description}" HorizontalOptions="StartAndExpand"/>
+                                        <Label Text="{Binding DeadLine}" HorizontalOptions="EndAndExpand" TextColor="Red"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <StackLayout Grid.Row="1">
+
+
+                <BoxView BackgroundColor="Black" HeightRequest="10"/>
+                <StackLayout>
+                    <Entry x:Name="txtTaskId" Text="" Placeholder="Task Id:" />
+                    <Entry x:Name="txtDescription" Text="" Placeholder="Description:"/>
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                    <DatePicker x:Name="dpDate"/>
+                    <Picker x:Name="pickerUser" HorizontalOptions="FillAndExpand" ItemDisplayBinding="{Binding Username}"/>
+                </StackLayout>
+            </StackLayout>
+
+
+
+            <Button x:Name="btnAddTask" Text="Add Task"  BackgroundColor="OrangeRed" CornerRadius="18" Clicked="btnAddTask_Clicked"/>
+            <Button x:Name="btnLogout" Text=" Logout" BackgroundColor="OrangeRed" CornerRadius="18"/>
+            </StackLayout>
+        </Grid>
+
     </ContentPage.Content>
 </ContentPage>

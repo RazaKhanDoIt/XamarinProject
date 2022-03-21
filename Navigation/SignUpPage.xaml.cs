@@ -31,34 +31,33 @@ namespace Navigation
         {
             bool fieldsEmpty = txtUsername.Text == "" || txtPassword.Text == "" || txtPasswordRep.Text == "";
             bool passwordMatch = txtPassword.Text == txtPasswordRep.Text;
-
-            if(DataSource.AddUser(new User(txtUsername.Text,txtPassword.Text)))
+            if(fieldsEmpty)
             {
-                await DisplayAlert("Alert", $"User {txtUsername.Text} was created!", "OK");
-                await Navigation.PopAsync();
+                await DisplayAlert("Alert", "Fields cannot be empty", "OK");
             }
             else
             {
-                if (passwordMatch)
-                {
-                    if (DataSource.AddUser(new User(txtUsername.Text, txtPassword.Text)))
+             
+                    if (passwordMatch)
                     {
-                        await DisplayAlert("Alert", $"User {txtUsername.Text} was created!", "OK");
-                        await Navigation.PopAsync();
-                    }
+                        if (DataSource.AddUser(new User(txtUsername.Text, txtPassword.Text)))
+                        {
+                            await DisplayAlert("Alert", $"User {txtUsername.Text} was created!", "OK");
+                            await Navigation.PopAsync();
+                        }
 
+                        else
+                        {
+
+                            await DisplayAlert("Alert", "Username already used!", "Ok");
+                        }
+                    }
                     else
                     {
-
-                        await DisplayAlert("Alert", "Username already used!", "Ok");
+                        await DisplayAlert("Alert", "Passwords do not Match", "ok");
                     }
                 }
-                else
-                {
-                    await DisplayAlert("Alert", "Passwords do not Match", "ok");
-                        }
                             
             }
         }
     }
-}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Navigation
@@ -8,6 +9,7 @@ namespace Navigation
     {
 
         private static List<User> myusers = new List<User>();
+        private static ObservableCollection<Task> myTasks = new ObservableCollection<Task>();
 
         public static bool AddUser(User usr)
         {
@@ -39,6 +41,29 @@ namespace Navigation
                 }
             }
             return false;
+        }
+
+        public static bool AddTask(Task tsk)
+        {
+            foreach (Task task in myTasks)
+            {
+                if(task.TaskId == tsk.TaskId)
+                {
+                    return false;
+                }
+            }
+            myTasks.Add(tsk);
+            return true;
+        }
+
+        public static ObservableCollection<Task> GetTasks()
+        {
+            return myTasks;
+        }
+
+        public static List<User> GetUsers()
+        {
+            return myusers;
         }
     }
 }
