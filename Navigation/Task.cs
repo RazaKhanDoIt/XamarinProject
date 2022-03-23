@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Navigation
 {
-    class Task
+    public class Task
     {
         public Task(string taskId, string description, string assigned, DateTime deadLine)
         {

@@ -22,6 +22,9 @@ namespace Navigation
         {
                 if (DataSource.Login(txtuserName.Text , txtpassword.Text))
             {
+                txtuserName.Text = "";
+                txtpassword.Text = "";
+
                  await Navigation.PushAsync(new UserPage());
             }
                 else

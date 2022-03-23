@@ -15,9 +15,7 @@ namespace Navigation
         public UserPage()
         {
             InitializeComponent();
-            DataSource.AddTask(new Task("OUDS-2811", "Update Ios 12", "RazaKhan", new DateTime(2022, 7, 23)));
-            DataSource.AddTask(new Task("OUDS-2821", "Fix Rocket", "Alex Sekki", new DateTime(2022, 5, 23)));
-            DataSource.AddTask(new Task("OUDS-222", "Run Project", "Shaun Slobers", new DateTime(2022, 6, 12)));
+           
             dpDate.MinimumDate = DateTime.Now;
             pickerUser.ItemsSource = DataSource.GetUsers();
             pickerUser.SelectedIndex = 0;
@@ -35,15 +33,34 @@ namespace Navigation
             }
             else
             {
-                if(DataSource.AddTask(new Task(txtTaskId.Text,txtDescription.Text,pickerUser.SelectedItem.ToString(),dpDate.Date)))
+                User temp = (User)pickerUser.SelectedItem;
+                if(DataSource.AddTask(new Task(txtTaskId.Text,txtDescription.Text,temp.Username,dpDate.Date)))
                 {
+                   
                     await DisplayAlert("Alert", $"Task {txtTaskId.Text} was created", "ok");
+                    pickerUser.SelectedIndex = 0;
+                    txtTaskId.Text = "";
+                    txtDescription.Text = "";
+                    dpDate.Date = DateTime.Now;
                 }
                 else
                 {
                     await DisplayAlert("Alert", "Task id already exists", "OK");
                 }
             }
+        }
+
+        private void btnLogout_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
+        }
+
+        private  void listTasks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            
+            var taskDetail = new TaskDetailPage(DataSource.GetTasks()[e.SelectedItemIndex]);
+            taskDetail.BindingContext = DataSource.GetTasks()[e.SelectedItemIndex];
+            Navigation.PushAsync(taskDetail);
         }
     }
 }

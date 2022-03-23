@@ -65,5 +65,42 @@ namespace Navigation
         {
             return myusers;
         }
+
+        public static int UserIndex(string username)
+        {
+            foreach (User usr in myusers)
+            {
+                if(usr.Username == username)
+                {
+                    return myusers.IndexOf(usr);
+                }
+            }
+            return -1;
+        }
+
+        public static bool DeleteTask(string id)
+        {
+            foreach (Task tsk in myTasks)
+            {
+                if(tsk.TaskId == id)
+                {
+                    myTasks.Remove(tsk);
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool EditTask(Task tsk)
+        {
+            foreach (Task task in myTasks)
+            {
+                if(task.TaskId == tsk.TaskId)
+                {
+                    myTasks[myTasks.IndexOf(task)] = tsk;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
