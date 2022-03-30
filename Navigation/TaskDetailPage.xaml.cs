@@ -12,17 +12,25 @@ namespace Navigation
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TaskDetailPage : ContentPage
     {
-        
+
+        Task globalTask;
 
         public TaskDetailPage(Task tsk)
         {
             InitializeComponent();
             dpDate.Date = Convert.ToDateTime(tsk.DeadLine);
-            pickerUser.ItemsSource = DataSource.GetUsers();
-            //this is the same to user as method UserIndex() inside dataSource
-            int index = DataSource.GetUsers().FindIndex(item => item.Username == tsk.Assigned);
-            pickerUser.SelectedIndex = index;
+            globalTask = tsk;
+          
             txtTaskId.IsEnabled = false;
+        }
+
+        protected override  async void OnAppearing()
+        {
+            List<User> tempList = await App.Database.GetUsersAsync();
+            pickerUser.ItemsSource = tempList;
+            //this is the same to user as method UserIndex() inside dataSource
+            int index = tempList.FindIndex(item => item.Username == globalTask.Assigned);
+            pickerUser.SelectedIndex = index;
         }
 
         private async void btnEdit_Clicked(object sender, EventArgs e)

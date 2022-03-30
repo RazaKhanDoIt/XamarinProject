@@ -12,7 +12,7 @@ namespace Navigation
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignUpPage : ContentPage
     {
-        User myuser = new User("Raza", "Raza");
+       
 
 
         public SignUpPage()
@@ -40,7 +40,7 @@ namespace Navigation
              
                     if (passwordMatch)
                     {
-                        if (DataSource.AddUser(new User(txtUsername.Text, txtPassword.Text)))
+                        if (await CreateUserAsync(txtUsername.Text,txtPassword.Text))
                         {
                             await DisplayAlert("Alert", $"User {txtUsername.Text} was created!", "OK");
                             await Navigation.PopAsync();
@@ -59,5 +59,26 @@ namespace Navigation
                 }
                             
             }
+        private async Task<bool> CreateUserAsync(string username, string password)
+        {
+            foreach (User user in await App.Database.GetUsersAsync())
+            {
+                if (user.Username == username)
+                {
+                    return false;
+                }
+            }
+
+             await App.Database.SaveUserAsync(
+                new User
+                {
+                    Username = username,
+                    Password = password
+                });
+
+            return true;
         }
+        
+        
     }
+}

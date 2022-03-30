@@ -20,17 +20,29 @@ namespace Navigation
 
         private async void Login_Clicked(object sender, EventArgs e)
         {
-                if (DataSource.Login(txtuserName.Text , txtpassword.Text))
+            if (await LoginAsync(txtuserName.Text , txtpassword.Text))
             {
                 txtuserName.Text = "";
                 txtpassword.Text = "";
 
                  await Navigation.PushAsync(new UserPage());
             }
-                else
+            else
             {
               await DisplayAlert ("Alert", "Invalid username or password", "Ok");
             }
+        }
+
+        private  async Task<bool> LoginAsync(string username,string password)
+        {
+            foreach (User user in await App.Database.GetUsersAsync())
+            {
+                if(user.Username == username && user.Password == password)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private async void btnSignup_Clicked(object sender, EventArgs e)

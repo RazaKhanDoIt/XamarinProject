@@ -17,11 +17,17 @@ namespace Navigation
             InitializeComponent();
            
             dpDate.MinimumDate = DateTime.Now;
-            pickerUser.ItemsSource = DataSource.GetUsers();
-            pickerUser.SelectedIndex = 0;
+           
 
 
             listTasks.ItemsSource = DataSource.GetTasks();
+        }
+
+        protected override async void OnAppearing()
+        {
+            pickerUser.ItemsSource = await App.Database.GetUsersAsync();
+
+            pickerUser.SelectedIndex = 0;
         }
 
         private async void btnAddTask_Clicked(object sender, EventArgs e)
